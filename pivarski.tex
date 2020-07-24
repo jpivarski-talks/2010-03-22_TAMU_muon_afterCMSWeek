@@ -1,0 +1,253 @@
+\documentclass[compress]{beamer}
+\usepackage{ifthen,verbatim}
+
+\newcommand{\isnote}{}
+\xdefinecolor{lightyellow}{rgb}{1.,1.,0.25}
+\xdefinecolor{darkblue}{rgb}{0.1,0.1,0.7}
+
+%% Uncomment this to get annotations
+%% \def\notes{\addtocounter{page}{-1}
+%%            \renewcommand{\isnote}{*}
+%% 	   \beamertemplateshadingbackground{lightyellow}{white}
+%%            \begin{frame}
+%%            \frametitle{Notes for the previous page (page \insertpagenumber)}
+%%            \itemize}
+%% \def\endnotes{\enditemize
+%% 	      \end{frame}
+%%               \beamertemplateshadingbackground{white}{white}
+%%               \renewcommand{\isnote}{}}
+
+%% Uncomment this to not get annotations
+\def\notes{\comment}
+\def\endnotes{\endcomment}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{\mbox{ } \hfill
+\begin{minipage}{5.5 cm}
+\vspace{-0.75 cm} \small
+\end{minipage} \hfill
+\begin{minipage}{4.5 cm}
+\vspace{-0.75 cm} \small
+\begin{flushright}
+\ifthenelse{\equal{\insertpagenumber}{1}}{}{Jim Pivarski \hspace{0.2 cm} \insertpagenumber\isnote/\pageref{numpages}}
+\end{flushright}
+\end{minipage}\mbox{\hspace{0.2 cm}}\includegraphics[height=1 cm]{../cmslogo} \hspace{0.1 cm} \includegraphics[height=1 cm]{../tamulogo} \hspace{0.01 cm} \vspace{-1.05 cm}}
+
+\begin{document}
+%% \begin{notes}
+%% \item This is the annotated version of my talk.
+%% \item If you want the version that I am presenting, download the one
+%% labeled ``slides'' on Indico (or just ignore these yellow pages).
+%% \item The annotated version is provided for extra detail and a written
+%% record of comments that I intend to make orally.
+%% \item Yellow notes refer to the content on the {\it previous} page.
+%% \item All other slides are identical for the two versions.
+%% \end{notes}
+
+\small
+
+\begin{frame}
+\frametitle{Muon alignment planning}
+\scriptsize
+\vspace{0.5 cm}
+\begin{tabular}{l l p{0.75\linewidth}}
+Jim & done & \vspace{-1.5\baselineskip}\begin{itemize}
+\item produced algorithm and software for R-T alignment
+\item demonstrated ring-alignment (using monitoring plots only)
+\item demonstrated beam-halo alignment (unmaintainable code)
+\item documented almost everything in twiki format
+\item got people interested in tracker global distortion issue
+\end{itemize} \\
+& to-do & \vspace{-1.5\baselineskip}\begin{itemize}
+\item generalize and re-write beam-halo alignment procedure
+\item document everything in the form of permanant notes
+\end{itemize} \\
+
+Aysen & done & \vspace{-1.5\baselineskip}\begin{itemize}
+\item learned and improved R-T code
+\end{itemize} \\
+& to-do & \vspace{-1.5\baselineskip}\begin{itemize}
+\item optimize R-T procedure for few pb$^{-1}$
+\item start delivering constants: 2010 cosmic rays $\to$
+  aligned barrel chambers and endcap ring-positions
+\end{itemize} \\
+
+Vadim & done & \vspace{-1.5\baselineskip}\begin{itemize}
+\item findQualityFiles, Alignment Quality Monitor
+\end{itemize} \\
+& to-do & \vspace{-1.5\baselineskip}\begin{itemize}
+\item hardware alignment case (?), more quality tests
+\item formalize CSC ring-position procedure
+\end{itemize} \\
+\end{tabular}
+
+%% \begin{itemize}  %%\setlength{\itemsep}{0.1 cm}
+
+%% \end{itemize}
+%% \hspace{-0.83 cm} \textcolor{darkblue}{\Large Outline2}
+\end{frame}
+
+\begin{frame}
+\frametitle{2010 cosmic rays}
+
+\begin{itemize}
+\item Already collected: ``1 million cosmics'' (what that means
+  depends on $p_T$ cut) ``with all subsystems participating''
+  (essential).  Sometimes called ``CRAFT-10'' because it is similar in
+  scope to CRAFT-09 and CRAFT-08.
+\begin{itemize}
+\item tracker alignment (prerequisite) already performed
+\end{itemize}
+\item First real alignment problem for Aysen: people need this for
+  reconstruction of first TeV collisions data
+\item Exact repeat of CRAFT-09 procedures: we've done it before, we can
+  do it again, depending on statistics
+\item Timescale: a few weeks
+\item I'm planning a visit to A\&M next week, so that we can get
+  started on this (should discuss optimal dates)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Ring-position alignment}
+
+\begin{columns}
+\column{0.55\linewidth}
+\includegraphics[height=\linewidth, angle=90]{ringfits_before_mem12.pdf}
+
+\includegraphics[height=\linewidth, angle=90]{ringfits_after_mem12.pdf}
+
+\column{0.4\linewidth}
+\includegraphics[width=\linewidth]{tracker_disk_interpretation.pdf}
+\end{columns}
+
+\scriptsize
+\begin{itemize}
+\item Performed on monitoring plots (not in R-T framework), put positions in XML, produce SQLite file, and that becomes the alignment
+\item Previously done by hand, but it can be naturally added to Vadim's diagnostics (easy to automate)
+\end{itemize}
+\end{frame}
+
+%% \section*{First section}
+%% \begin{frame}
+%% \begin{center}
+%% \Huge \textcolor{blue}{First section}
+%% \end{center}
+%% \end{frame}
+
+\begin{frame}
+\frametitle{What to do about CSC-Overlaps}
+
+\includegraphics[width=0.9\linewidth]{occupancy_problems.pdf}
+
+\begin{itemize}
+\item CSC-Overlaps procedure depends on complete rings
+\item Missing chamber/CFEB problems are not going to be resolved soon
+\item Applying closure as a constraint only helps rings with one gap
+  and is very sensitive to small problems (e.g.\ 8~mm error
+  accumulated from 18$\times$500~$\mu$m effect)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Generalizing procedure}
+
+\includegraphics[width=0.5\linewidth]{incomplete_and_crosswise.pdf}
+
+\begin{itemize}
+\item Old procedure (left): nearest-neighbor constraints $m_{i,i+1}$ defines
+  a static matrix whose inverse solves the alignment problem for all
+  chambers simultaneously
+\begin{itemize}
+\item if not all connections are present, matrix would be non-invertable
+\item filling in gaps by ``faking'' the missing residuals such that closure = 0
+\end{itemize}
+
+\item New procedure (right): constraints from any pair of chambers
+  $m_{ij}$, matrix is built up dynamically from the constraints
+\begin{itemize}
+\item can treat constraints from residuals, photogrammetry, and maybe
+  hardware alignment on an equal footing
+\item requires a re-write of the module, which was needed anyway
+\end{itemize}
+\end{itemize}
+\end{frame}           
+
+\begin{frame}
+\frametitle{Testing with 5-chamber example}
+
+\scriptsize
+\begin{minipage}{1.05\linewidth}
+
+$\displaystyle \chi^2 = \sum_{\mbox{\scriptsize constraints}} \frac{(m_{ij} - A_i + A_j)^2}{{\sigma_{ij}}^2} + \lambda \left(\sum_i A_i\right)^2$
+
+\vspace{0.3 cm}
+\# format: ($i$, $j$, $m_{ij}$, $\sigma_{ij}$)
+
+constraints = [(0, 1, 0.3, 1.), (1, 2, 0.1, 1.), (2, 3, -0.3, 1.), (3, 4, 0., 1.), (4, 0, -0.1, 1.),]
+
+\vspace{0.3 cm}
+result: $A_0 = 0.18$, $A_1 = -0.12$, $A_2 = -0.22$, $A_3 = 0.08$, $A_4 = 0.08$
+
+\vspace{0.3 cm}
+covariance: $\left(\begin{array}{r r r r r}
+0.44 & 0.04 & -0.16 & -0.16 & 0.04 \\
+0.04 & 0.44 & 0.04 & -0.16 & -0.16 \\
+-0.16 & 0.04 & 0.44 & 0.04 & -0.16 \\
+-0.16 & -0.16 & 0.04 & 0.44 & 0.04 \\
+0.04 & -0.16 & -0.16 & 0.04 & 0.44 \\
+\end{array}\right)$
+
+\vspace{0.3 cm}
+modes with uncorrelated uncertainties:
+
+\vspace{0.1 cm}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c | l}
+$-0.45 A_{0} + -0.45 A_{1} + -0.45 A_{2} + -0.45 A_{3} + -0.45 A_{4}$ & $\propto \sqrt{1/\lambda}$ (meaningless) \\
+$0.63 A_{0} + 0.25 A_{1} + -0.48 A_{2} + -0.54 A_{3} + 0.14 A_{4}$ & 0.60 (weaker modes) \\
+$0.6 A_{1} + 0.37 A_{2} + -0.37 A_{3} + -0.6 A_{4}$ & 0.60 \\
+$0.63 A_{0} + -0.38 A_{1} + -0.01 A_{2} + 0.4 A_{3} + -0.64 A_{4}$ & 0.37 (stronger modes) \\ 
+$-0.39 A_{1} + 0.64 A_{2} + -0.64 A_{3} + 0.39 A_{4}$ & 0.37 \\
+\end{tabular}
+
+\vspace{0.3 cm}
+Minuit gives the same results as linear algebra under many different configurations (but sometimes only in the first 3--4 digits for complicated cases)
+\end{minipage}
+\end{frame}
+
+\begin{frame}
+\frametitle{Planned documents}
+
+\begin{itemize}
+\item CSC Overlaps alignment procedure
+\begin{itemize}
+\item written at the same time as the new code
+\item touches on every aspect of alignment theory in a simple example; will be a great introduction\ldots
+\end{itemize}
+
+\item Reference-Target alignment procedure and infrastructure
+\begin{itemize}
+\item including the XML tools, ring-alignment procedure
+\end{itemize}
+\end{itemize}
+
+\vspace{0.2 cm}
+\hspace{-0.83 cm} \textcolor{darkblue}{\Large Summary of procedures and software products}
+
+\scriptsize
+\vspace{0.1 cm}
+\begin{itemize}
+\item Reference-Target algorithm: chamber-by-chamber alignment for DTs and CSCs (AlignmentProducer module)
+\item CSC-Overlaps algorithm: chambers-within-rings for CSCs (AlignmentProducer)
+\item Scripts for submitting and collecting data from both of the above
+\item CSC Ring alignment: ring positions relative to tracker (simple procedure performed on monitoring plots)
+\item Monitoring plots in CommonAlignmentMonitor
+\item XML tools for creating and analyzing muon system geometries
+\item Alignment Quality Monitor browser for organizing study of monitoring plots (and eventually) differences between muon system geometries
+\end{itemize}
+
+\label{numpages}
+\end{frame}
+
+\end{document}
